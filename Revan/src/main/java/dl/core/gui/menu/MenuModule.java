@@ -31,17 +31,23 @@ public class MenuModule extends JPanel {
         pnl.setLayout(new GridLayout(1, 1));
 
         var abuelo = new MenuNode("abuelo");
-        var modelo = new DefaultTreeModel(abuelo);
-        var tr = new JTree(modelo);
         var padre = new MenuNode("padre");
         var tio = new MenuNode("tio", CustomScreen.class);
         var hijo = new MenuNode("screen test", CustomScreen.class);
         var hija = new MenuNode("hija", ScreenMenuNode.class);
+        var primo = new MenuNode("primo", ScreenMenuNode.class);
+        var modelo = new DefaultTreeModel(abuelo);
+        
         modelo.insertNodeInto(padre, abuelo, 0);
         modelo.insertNodeInto(tio, abuelo, 1);
         modelo.insertNodeInto(hijo, padre, 0);
         modelo.insertNodeInto(hija, padre, 1);
+        modelo.insertNodeInto(primo, tio, 0);
 
+        var tr = new JTree();
+        tr.setRootVisible(false);
+        tr.setModel(modelo);
+        
         tr.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 var tp = tr.getPathForLocation(me.getX(), me.getY());

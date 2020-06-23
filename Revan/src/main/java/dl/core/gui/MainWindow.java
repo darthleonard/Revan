@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -16,6 +15,8 @@ import dl.core.gui.menu.MenuNodeEvent;
 import dl.core.gui.menu.MenuNodeListener;
 import dl.core.gui.screen.IScreenAdapter;
 import dl.core.gui.screen.ScreenTabComponent;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 public class MainWindow extends JFrame implements MenuNodeListener {
 
@@ -63,20 +64,39 @@ public class MainWindow extends JFrame implements MenuNodeListener {
         }
         return panel;
     }
+    
+    private int openNewTab(IScreenAdapter screen) {
+        tabbed.addTab(screen.getTitle(), (JPanel) screen);
+        var idx = tabbed.indexOfComponent((JPanel) screen);
+        tabbed.setTabComponentAt(idx, new ScreenTabComponent(tabbed));
+        return idx;
+    }
 
     @Override
     public void menuNodeClick(MenuNodeEvent event) {
-        var msj = "empty";
         try {
             var screen = (IScreenAdapter) event.ScreenClass().getDeclaredConstructor().newInstance();
-            tabbed.addTab(screen.getTitle(), (JPanel) screen);
-            var index = tabbed.indexOfComponent((JPanel) screen);
-            tabbed.setTabComponentAt(index, new ScreenTabComponent(tabbed));
-            tabbed.setSelectedComponent((JPanel) screen);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            msj = e.getMessage();
-            actionPanel.add(new JLabel(msj));
+            var existingMatchingComponents = Arrays.asList(tabbed.getComponents())
+                    .stream()
+                    .filter(c -> c instanceof IScreenAdapter 
+                            && ((IScreenAdapter)c).getTitle() == screen.getTitle())
+                    .findFirst();
+            var idx = 0;
+            if(existingMatchingComponents.isEmpty()){
+                idx = openNewTab(screen);
+            } else {
+                idx = ((IScreenAdapter)existingMatchingComponents.get()).isMultiInstance()
+                        ? openNewTab(screen)
+                        : tabbed.indexOfComponent(existingMatchingComponents.get());
+            }
+            tabbed.setSelectedIndex(idx);
+        } catch (InstantiationException 
+                | IllegalAccessException 
+                | IllegalArgumentException
+                | InvocationTargetException 
+                | NoSuchMethodException 
+                | SecurityException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
         actionPanel.updateUI();

@@ -5,6 +5,10 @@ import dl.core.gui.screen.ScreenMenuNode;
 public class CustomScreen extends ScreenMenuNode {
     private static final long serialVersionUID = 1L;
 
+    public CustomScreen() {
+        this.setMultiInstance(true);
+    }
+    
     @Override
     public String getTitle() {
         return "custom screen title";

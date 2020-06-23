@@ -32,7 +32,7 @@ public class MenuModule extends JPanel {
 
         var abuelo = new MenuNode("abuelo");
         var padre = new MenuNode("padre");
-        var tio = new MenuNode("tio", CustomScreen.class);
+        var tio = new MenuNode("tio");
         var hijo = new MenuNode("screen test", CustomScreen.class);
         var hija = new MenuNode("hija", ScreenMenuNode.class);
         var primo = new MenuNode("primo", ScreenMenuNode.class);

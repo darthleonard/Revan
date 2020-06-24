@@ -21,10 +21,19 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+/**
+ *
+ * @author user
+ */
 public class ScreenTabComponent extends JPanel {
-	private static final long serialVersionUID = 1L;
-	private final JTabbedPane pane;
 
+    private static final long serialVersionUID = 1L;
+    private final JTabbedPane pane;
+
+    /**
+     *
+     * @param pane
+     */
     public ScreenTabComponent(final JTabbedPane pane) {
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
@@ -32,11 +41,11 @@ public class ScreenTabComponent extends JPanel {
         }
         this.pane = pane;
         setOpaque(false);
-        
-        var label = new JLabel() {
-			private static final long serialVersionUID = 1L;
 
-			public String getText() {
+        var label = new JLabel() {
+            private static final long serialVersionUID = 1L;
+
+            public String getText() {
                 int i = pane.indexOfTabComponent(ScreenTabComponent.this);
                 if (i != -1) {
                     return pane.getTitleAt(i);
@@ -44,19 +53,20 @@ public class ScreenTabComponent extends JPanel {
                 return null;
             }
         };
-        
+
         add(label);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         var button = new TabButton();
-        
+
         add(button);
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
     }
 
     private class TabButton extends JButton implements ActionListener {
-		private static final long serialVersionUID = 1L;
 
-		public TabButton() {
+        private static final long serialVersionUID = 1L;
+
+        public TabButton() {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
             setToolTipText("close this tab");

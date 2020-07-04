@@ -18,7 +18,7 @@ import dl.core.gui.screen.ScreenMenuFactory;
 public class MenuModule extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private List<MenuNodeListener> _listeners = new ArrayList<MenuNodeListener>();
+    private List<MenuNodeListener> listeners = new ArrayList<MenuNodeListener>();
 
     public MenuModule(String text) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,7 +37,7 @@ public class MenuModule extends JPanel {
                 }
                 var node = (MenuNode) tp.getLastPathComponent();
                 if (node.isLeaf()) {
-                    _fireMenuNodeEvent((Class<?>) node.getUserObject());
+                    fireMenuNodeEvent((Class<?>) node.getUserObject());
                 }
             }
         });
@@ -55,18 +55,18 @@ public class MenuModule extends JPanel {
     }
     
     public synchronized void addMenuNodeListener(MenuNodeListener l) {
-        _listeners.add(l);
+        listeners.add(l);
     }
 
     public synchronized void removeMoodListener(MenuNodeListener l) {
-        _listeners.remove(l);
+        listeners.remove(l);
     }
 
-    private synchronized void _fireMenuNodeEvent(Class<?> screen) {
+    private synchronized void fireMenuNodeEvent(Class<?> screen) {
         var menuNodeEvent = new MenuNodeEvent(this, screen);
-        var listeners = _listeners.iterator();
-        while (listeners.hasNext()) {
-            ((MenuNodeListener) listeners.next()).menuNodeClick(menuNodeEvent);
+        var registeredListeners = listeners.iterator();
+        while (registeredListeners.hasNext()) {
+            ((MenuNodeListener) registeredListeners.next()).menuNodeClick(menuNodeEvent);
         }
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<revanMenu>
+  <General>
+  	<Personnel>
+  		<ScreenNode screen="dl.core.gui.CustomScreen">Clients</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Providers</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Employees</ScreenNode>
+  	</Personnel>
+  </General>
+  <Animals>
+  	<Mammals>
+  		<ScreenNode screen="dl.core.gui.CustomScreen">Lions</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Mice</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Dogs</ScreenNode>
+  	</Mammals>
+  	<Birds>
+  		<ScreenNode screen="dl.core.gui.CustomScreen">Eagles</ScreenNode>
+  	</Birds>
+  	<Fishes>
+  		<ScreenNode screen="dl.core.gui.CustomScreen">Sharks</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Whales</ScreenNode>
+  	</Fishes>
+  </Animals>
+  <Transactions>
+    	<ScreenNode screen="dl.core.gui.CustomScreen">Incoming</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">Outgoing</ScreenNode>
+  </Transactions>
+  <Payments>
+    	<ScreenNode screen="dl.core.gui.CustomScreen">Screen title</ScreenNode>
+  		<ScreenNode screen="dl.core.gui.screen.ScreenMenuNode">second screen</ScreenNode>
+  </Payments>
+  <ScreenNode screen="dl.core.gui.CustomScreen">Screen title</ScreenNode>
+</revanMenu>

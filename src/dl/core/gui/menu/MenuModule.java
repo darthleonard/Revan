@@ -12,11 +12,8 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
 
-import dl.core.gui.CustomScreen;
-import dl.core.gui.screen.ScreenMenuNode;
+import dl.core.gui.screen.ScreenMenuLoader;
 
 public class MenuModule extends JPanel {
 
@@ -29,25 +26,9 @@ public class MenuModule extends JPanel {
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, btn.getMinimumSize().height));
         var pnl = new JPanel();
         pnl.setLayout(new GridLayout(1, 1));
-
-        var abuelo = new MenuNode("abuelo");
-        var padre = new MenuNode("padre");
-        var tio = new MenuNode("tio");
-        var hijo = new MenuNode("screen test", CustomScreen.class);
-        var hija = new MenuNode("hija", ScreenMenuNode.class);
-        var primo = new MenuNode("primo", ScreenMenuNode.class);
-        var modelo = new DefaultTreeModel(abuelo);
         
-        modelo.insertNodeInto(padre, abuelo, 0);
-        modelo.insertNodeInto(tio, abuelo, 1);
-        modelo.insertNodeInto(hijo, padre, 0);
-        modelo.insertNodeInto(hija, padre, 1);
-        modelo.insertNodeInto(primo, tio, 0);
-
-        var tr = new JTree();
-        tr.setRootVisible(false);
-        tr.setModel(modelo);
-        
+        var menuLoader = new ScreenMenuLoader("/home/user/workspace/java/Revan/Revan/MenuDefinitions.xml");
+        var tr = menuLoader.Load();
         tr.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 var tp = tr.getPathForLocation(me.getX(), me.getY());
@@ -72,7 +53,7 @@ public class MenuModule extends JPanel {
             }
         });
     }
-
+    
     public synchronized void addMenuNodeListener(MenuNodeListener l) {
         _listeners.add(l);
     }

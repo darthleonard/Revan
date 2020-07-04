@@ -11,14 +11,14 @@ import org.w3c.dom.NodeList;
 
 import dl.core.gui.menu.MenuNode;
 
-public class ScreenMenuLoader {
+public class ScreenMenuFactory {
 	private String menuDefinitionPath;
 	
-	public ScreenMenuLoader(String menuDefinitionPath) {
+	public ScreenMenuFactory(String menuDefinitionPath) {
 		this.menuDefinitionPath = menuDefinitionPath;
 	}
 	
-	public JTree Load() {
+	public JTree Create() {
     	Node root = null;
         try {
           var factory = DocumentBuilderFactory.newInstance();

@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import dl.core.gui.screen.ScreenMenuLoader;
+import dl.core.gui.screen.ScreenMenuFactory;
 
 public class MenuModule extends JPanel {
 
@@ -27,8 +27,8 @@ public class MenuModule extends JPanel {
         var pnl = new JPanel();
         pnl.setLayout(new GridLayout(1, 1));
         
-        var menuLoader = new ScreenMenuLoader("/home/user/workspace/java/Revan/Revan/MenuDefinitions.xml");
-        var tr = menuLoader.Load();
+        var menuLoader = new ScreenMenuFactory("/home/user/workspace/java/Revan/Revan/MenuDefinitions.xml");
+        var tr = menuLoader.Create();
         tr.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 var tp = tr.getPathForLocation(me.getX(), me.getY());

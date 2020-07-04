@@ -98,10 +98,7 @@ public class MainWindow extends JFrame implements MenuNodeListener {
             } else {
             	idx = screen.getClass().getAnnotation(ClassId.class).IsMutliInstance()
             			? openNewTab(screen)
-            			: tabbed.indexOfComponent(existingMatchingComponents.get());		
-                /*idx = ((IScreenAdapter)existingMatchingComponents.get()).isMultiInstance()
-                        ? openNewTab(screen)
-                        : tabbed.indexOfComponent(existingMatchingComponents.get());*/
+            			: tabbed.indexOfComponent(existingMatchingComponents.get());
             }
             tabbed.setSelectedIndex(idx);
         } catch (InstantiationException 

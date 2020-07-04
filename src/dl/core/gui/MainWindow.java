@@ -15,6 +15,8 @@ import dl.core.gui.menu.MenuNodeEvent;
 import dl.core.gui.menu.MenuNodeListener;
 import dl.core.gui.screen.IScreenAdapter;
 import dl.core.gui.screen.ScreenTabComponent;
+import dl.reflection.ClassId;
+
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 
@@ -76,18 +78,30 @@ public class MainWindow extends JFrame implements MenuNodeListener {
     public void menuNodeClick(MenuNodeEvent event) {
         try {
             var screen = (IScreenAdapter) event.ScreenClass().getDeclaredConstructor().newInstance();
+            
+            if(!screen.getClass().isAnnotationPresent(ClassId.class)) {
+            	var error = screen.getClass() + " is not annotated with ClassId";
+            	JOptionPane.showMessageDialog(this, 
+            			error,
+            			"ERROR ON GUI",
+            			JOptionPane.ERROR_MESSAGE);
+            	return;
+            }
+            
             var existingMatchingComponents = Arrays.asList(tabbed.getComponents())
                     .stream()
-                    .filter(c -> c instanceof IScreenAdapter 
-                            && ((IScreenAdapter)c).getTitle() == screen.getTitle())
+                    .filter(c -> c instanceof IScreenAdapter && IsSameClassId((IScreenAdapter)c, screen))
                     .findFirst();
             var idx = 0;
             if(existingMatchingComponents.isEmpty()){
                 idx = openNewTab(screen);
             } else {
-                idx = ((IScreenAdapter)existingMatchingComponents.get()).isMultiInstance()
+            	idx = screen.getClass().getAnnotation(ClassId.class).IsMutliInstance()
+            			? openNewTab(screen)
+            			: tabbed.indexOfComponent(existingMatchingComponents.get());		
+                /*idx = ((IScreenAdapter)existingMatchingComponents.get()).isMultiInstance()
                         ? openNewTab(screen)
-                        : tabbed.indexOfComponent(existingMatchingComponents.get());
+                        : tabbed.indexOfComponent(existingMatchingComponents.get());*/
             }
             tabbed.setSelectedIndex(idx);
         } catch (InstantiationException 
@@ -100,5 +114,9 @@ public class MainWindow extends JFrame implements MenuNodeListener {
             e.printStackTrace();
         }
         actionPanel.updateUI();
+    }
+    
+    private boolean IsSameClassId(IScreenAdapter screenOpen, IScreenAdapter screenNew) {
+    	return screenOpen.getClass().getAnnotation(ClassId.class).Id() == screenNew.getClass().getAnnotation(ClassId.class).Id();
     }
 }

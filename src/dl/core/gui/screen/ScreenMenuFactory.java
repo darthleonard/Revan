@@ -26,7 +26,9 @@ public class ScreenMenuFactory {
           var doc = builder.parse(menuDefinitionPath);
           root = (Node) doc.getDocumentElement();
         } catch (Exception ex) {
-          JOptionPane.showMessageDialog(null, "Can't parse file", "Error",
+          JOptionPane.showMessageDialog(null,
+        		  ex.getMessage(),
+        		  "Error",
               JOptionPane.ERROR_MESSAGE);
           return null;
         }

@@ -25,14 +25,17 @@ public class MainWindow extends JFrame implements MenuNodeListener {
     private static final long serialVersionUID = 1L;
     private JPanel actionPanel;
     private JTabbedPane tabbed;
+    private ArrayList<MenuModule> modules;
 
     public MainWindow() {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-
-        setJMenuBar(TestDataCreator.createMenuBar());
-
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+    
+    public void Open() {
+    	setJMenuBar(TestDataCreator.createMenuBar());
         actionPanel = new JPanel();
         tabbed = new JTabbedPane();
         actionPanel.add(tabbed);
@@ -44,34 +47,14 @@ public class MainWindow extends JFrame implements MenuNodeListener {
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(150);
         add(splitPane);
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
-    }
-
-    private JPanel createMenuPanel() {
-        var panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        var modules = new ArrayList<String>();
-        modules.add("module 1");
-        modules.add("module 2");
-        modules.add("module 3");
-        modules.add("module 4");
-
-        for (var module : modules) {
-            var panelModule = new MenuModule(module);
-            panelModule.addMenuNodeListener(this);
-            panel.add(panelModule);
-        }
-        return panel;
+    	setVisible(true);
     }
     
-    private int openNewTab(IScreenAdapter screen) {
-        tabbed.addTab(screen.getTitle(), (JPanel) screen);
-        var idx = tabbed.indexOfComponent((JPanel) screen);
-        tabbed.setTabComponentAt(idx, new ScreenTabComponent(tabbed));
-        return idx;
+    public void addModule(MenuModule menuModule) {
+    	if(modules == null) {
+    		modules = new ArrayList<MenuModule>();
+    	}
+    	modules.add(menuModule);
     }
 
     @Override
@@ -111,6 +94,30 @@ public class MainWindow extends JFrame implements MenuNodeListener {
             e.printStackTrace();
         }
         actionPanel.updateUI();
+    }
+    
+    private JPanel createMenuPanel() {
+        var panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        /*modules.add("module 1");
+        modules.add("module 2");
+        modules.add("module 3");
+        modules.add("module 4");*/
+
+        for (var module : modules) {
+            //var panelModule = new MenuModule(module);
+            module.addMenuNodeListener(this);
+            panel.add(module);
+        }
+        return panel;
+    }
+    
+    private int openNewTab(IScreenAdapter screen) {
+        tabbed.addTab(screen.getTitle(), (JPanel) screen);
+        var idx = tabbed.indexOfComponent((JPanel) screen);
+        tabbed.setTabComponentAt(idx, new ScreenTabComponent(tabbed));
+        return idx;
     }
     
     private boolean IsSameClassId(IScreenAdapter screenOpen, IScreenAdapter screenNew) {

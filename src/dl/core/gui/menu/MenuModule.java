@@ -20,14 +20,15 @@ public class MenuModule extends JPanel {
     private static final long serialVersionUID = 1L;
     private List<MenuNodeListener> listeners = new ArrayList<MenuNodeListener>();
 
-    public MenuModule(String text) {
+    public MenuModule(String title, String xmlPath) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        var btn = new JButton(text);
+        var btn = new JButton(title);
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, btn.getMinimumSize().height));
         var pnl = new JPanel();
         pnl.setLayout(new GridLayout(1, 1));
         
-        var menuLoader = new ScreenMenuFactory("/home/user/workspace/java/Revan/Revan/MenuDefinitions.xml");
+        //var menuLoader = new ScreenMenuFactory("/home/user/workspace/java/Revan/Revan/MenuDefinitions.xml");
+        var menuLoader = new ScreenMenuFactory(xmlPath);
         var tr = menuLoader.Create();
         tr.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
